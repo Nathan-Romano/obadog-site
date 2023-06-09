@@ -16,8 +16,8 @@ export const Cart = ({ setModalOpen }) => {
         isDelivery ? (router.push("/dados")
         ) : (
             router.push("/pedido"),
-            localStorage.removeItem("dadosEntrega"), 
-            console.log("dadosentrega removido"))
+            localStorage.removeItem("dadosEntrega")
+            )
         const storedCartItems = localStorage.getItem("cartItems");
         if (storedCartItems) {
             // Se houver dados salvos no localStorage, atualize o carrinho com esses dados
@@ -52,7 +52,7 @@ export const Cart = ({ setModalOpen }) => {
                 (total, ingredient) => total + ingredient * item.quantity,
                 0
             );
-            console.log(itemTotalPrice, additionalIngredientsTotal);
+            //console.log(itemTotalPrice, additionalIngredientsTotal);
             totalPrice += itemTotalPrice + additionalIngredientsTotal; //
         });
         return totalPrice;

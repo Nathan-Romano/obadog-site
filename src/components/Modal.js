@@ -44,8 +44,8 @@ export default function Modal({ isOpen, setModalOpen, selectedProductModal }) {
       (total, ingredient) => total + ingredient.preco,
       0
     );
-    console.log(additionalIngredientsPrices)
-    console.log(basePrice);
+    //console.log(additionalIngredientsPrices)
+    //console.log(basePrice);
     return basePrice + additionalIngredientsPrices * quantity;
   };
 

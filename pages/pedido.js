@@ -2,10 +2,11 @@ import React, { useContext, useEffect, useState } from 'react';
 import { CartContext } from '../src/components/CartContext';
 import { IconCurrencyReal, IconX, IconMinus, IconPlus, IconChevronLeft } from "@tabler/icons-react";
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 var CryptoJS = require("crypto-js");
 
 export default function PedidoPage() {
-    const { cartItems, setCartItems, isDelivery } = useContext(CartContext);
+    const { cartItems, setCartItems, isDelivery, clearCart } = useContext(CartContext);
     const [endereco, setEndereco] = useState('');
     const [taxaEntrega, setTaxaEntrega] = useState(0);
     const [observacao, setObservacao] = useState('');
@@ -17,6 +18,7 @@ export default function PedidoPage() {
     const [formaPagamento, setFormaPagamento] = useState('');
     const [troco, setTroco] = useState(0);
     const [precisaTroco, setPrecisaTroco] = useState(false);
+    const router = useRouter()
 
     async function fetchEspera() {
         try {
@@ -44,7 +46,7 @@ export default function PedidoPage() {
 
         const dadosEntrega = localStorage.getItem('dadosEntrega');
         if (dadosEntrega) {
-            console.log(dadosEntrega)
+            //console.log(dadosEntrega)
             const bytes = CryptoJS.AES.decrypt(dadosEntrega, 'hndAWKUI8b04nvdspnabvnCXjxcoiashDYUWA');
             const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8))
             //console.log(decryptedData)
@@ -126,9 +128,17 @@ export default function PedidoPage() {
         setPrecisaTroco(event.target.value === 'sim');
     };
 
+    const handlePedidoFinalizado = () => {
+        createPedidoResumo();
+        clearCart();
+        localStorage.removeItem('cartItems');
+        localStorage.removeItem('dadosEntrega');
+        router.push('/pedidofinalizado')
+    }
+
     const createPedidoResumo = () => {
             let message = "Resumo do Pedido:\n\n";
-            message += "Itens do Carrinho:\n";
+            message += "ITENS DO CARRINHO:\n";
             cartItems.forEach((item) => {
               message += "Nome: " + item.name + "\n";
               message += "Preço do item: R$" + (item.price * item.quantity).toFixed(2) + "\n";
@@ -379,7 +389,7 @@ export default function PedidoPage() {
                             )}
                             <div className='flex text-center w-full'>
                                 <button className=" text-white bg-green-500 rounded-lg px-4 py-2 shadow-md shadow-green-300 hover:bg-green-600"
-                                    onClick={createPedidoResumo}>Finalizar Pedido</button>
+                                    onClick={handlePedidoFinalizado}>Finalizar Pedido</button>
                             </div>
                         </div>
 

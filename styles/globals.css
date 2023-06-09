@@ -1,6 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@font-face {
+  font-family: "Varela";
+  src: url("../font/VarelaRound-Regular.ttf") format("ttf")
+}
+@font-face {
+  font-family: "Joannes";
+  src: url("../font/JoannesHandwriting.otf") format("otf")
+}
+
+@font-face {
+  font-family: "Nunito";
+  src: url("../font/Nunito-VariableFont_wght.ttf") format("ttf")
+}
+
+
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -24,4 +39,12 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+}
+
+.mapStyle {
+  padding: 6px 8px;
+  background-color: rgb(255, 73, 73);
+  border-radius: 6px;
+  margin-top: 80px;
+  color:white;
 }

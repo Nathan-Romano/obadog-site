@@ -18,7 +18,6 @@ export default function PedidoPage() {
     const [troco, setTroco] = useState(0);
     const [precisaTroco, setPrecisaTroco] = useState(false);
 
-
     async function fetchEspera() {
         try {
             const res = await fetch('/api/espera/getespera', {
@@ -128,32 +127,66 @@ export default function PedidoPage() {
     };
 
     const createPedidoResumo = () => {
-        console.log("Resumo do Pedido:");
-        console.log("Itens do Carrinho:");
-        cartItems.forEach((item) => {
-            console.log("  Nome: ", item.name);
-            console.log("  Preço: R$", (item.price * item.quantity).toFixed(2));
-            console.log("  Quantidade: ", item.quantity);
-            console.log("  Observação: ", item.observacao ? item.observacao : "Não Informado");
-            console.log("  Adicional por un.: ", item.additionalIngredients.length > 0 ? item.additionalIngredients.join(", ") : "Não selecionado");
-            console.log("  Total: ", calculateTotalPrice())
-        });
-
-        console.log("Endereço: ", endereco ? (endereco, ", ", numero, " - ", bairros) : "Pedido para retirada");
-        console.log("Forma de Pagamento: ", formaPagamento);
-        if (formaPagamento === 'dinheiro') {
-            if (precisaTroco) {
-                console.log("Precisa de Troco: Sim");
-                console.log("Valor do Troco: ", troco.toFixed(2));
+            let message = "Resumo do Pedido:\n\n";
+            message += "Itens do Carrinho:\n";
+            cartItems.forEach((item) => {
+              message += "Nome: " + item.name + "\n";
+              message += "Preço do item: R$" + (item.price * item.quantity).toFixed(2) + "\n";
+              message += "Quantidade: " + item.quantity + "\n";
+              message += "Observação: " + (item.observacao ? item.observacao : "Não Informado") + "\n";
+              message += "Adicional por un.: " + (item.additionalIngredients.length > 0 ? item.additionalIngredients.join(", ") : "Não selecionado") + "\n\n";
+            });
+            message += "DADOS DE ENTREGA\n";
+            message += "Endereço: " + (endereco ? (endereco + ", " + numero + " - " + bairros) : "Pedido para retirada") + "\n";
+            message += "Forma de Pagamento: " + formaPagamento + "\n";
+            if (formaPagamento === 'dinheiro') {
+              if (precisaTroco) {
+                message += "Precisa de Troco: Sim\n";
+                message += "Valor do Troco: " + troco.toFixed(2) + "\n";
               } else {
-                console.log("Precisa de Troco: Não");
+                message += "Precisa de Troco: Não\n";
               }
-        }
-        if (isDelivery) {
-            console.log("Entrega: ", tempoEntrega, "min");
-        } else {
-            console.log("Retirada: ", tempoRetirada, "min");
-        }
+            }
+            if (isDelivery) {
+              message += "Entrega: " + tempoEntrega + "min\n";
+              message += "Taxa: " + taxaEntrega + "\n"
+              message += "TOTAL: R$" + calculateTotalPrice() + taxaEntrega + "\n\n";
+            } else {
+              message += "Retirada: " + tempoRetirada + "min\n";
+              message += "TOTAL: R$" + calculateTotalPrice().toFixed(2) + "\n\n";
+            }
+          
+            // Send the message via WhatsApp
+            const phoneNumber = "41998803189"; // Replace with the desired phone number
+            const url = "https://api.whatsapp.com/send?phone=" + phoneNumber + "&text=" + encodeURIComponent(message);
+            window.open(url, "_blank");
+
+        // console.log("Resumo do Pedido:");
+        // console.log("Itens do Carrinho:");
+        // cartItems.forEach((item) => {
+        //     console.log("  Nome: ", item.name);
+        //     console.log("  Preço: R$", (item.price * item.quantity).toFixed(2));
+        //     console.log("  Quantidade: ", item.quantity);
+        //     console.log("  Observação: ", item.observacao ? item.observacao : "Não Informado");
+        //     console.log("  Adicional por un.: ", item.additionalIngredients.length > 0 ? item.additionalIngredients.join(", ") : "Não selecionado");
+        //     console.log("  Total: ", calculateTotalPrice())
+        // });
+
+        // console.log("Endereço: ", endereco ? (endereco, ", ", numero, " - ", bairros) : "Pedido para retirada");
+        // console.log("Forma de Pagamento: ", formaPagamento);
+        // if (formaPagamento === 'dinheiro') {
+        //     if (precisaTroco) {
+        //         console.log("Precisa de Troco: Sim");
+        //         console.log("Valor do Troco: ", troco.toFixed(2));
+        //       } else {
+        //         console.log("Precisa de Troco: Não");
+        //       }
+        // }
+        // if (isDelivery) {
+        //     console.log("Entrega: ", tempoEntrega, "min");
+        // } else {
+        //     console.log("Retirada: ", tempoRetirada, "min");
+        // }
     };
 
     return (
@@ -277,7 +310,7 @@ export default function PedidoPage() {
                                         onChange={handleFormaPagamentoChange}
                                         className="w-5 h-5 mr-2"
                                     />
-                                    <span className='text-gray-900'>Pagamento com Cartão</span>
+                                    <span className='text-gray-900'>Pagamento com Cartão (Elo, Mastercard, Visa, Hipercard)</span>
                                 </label>
                             </div>
                             <div className="flex items-center ">
@@ -297,6 +330,7 @@ export default function PedidoPage() {
                             {formaPagamento === 'dinheiro' && (
                                 <div className='flex flex-col'>
                                     <div className="flex items-center gap-4">
+                                        <label className="flex items-center text-gray-900">Precisa de Troco?</label>
                                         <div className="flex items-center ">
                                             <label htmlFor="precisaTrocoSim" className="flex items-center cursor-pointer">
                                                 <input
@@ -334,9 +368,10 @@ export default function PedidoPage() {
                                             <input
                                                 type="number"
                                                 id="troco"
-                                                value={troco}
                                                 onChange={handleTrocoChange}
                                                 className="text-gray-900 border border-gray-300 px-2 py-1 rounded"
+                                                required
+                                                placeholder='50'
                                             />
                                         </div>
                                     )}
@@ -344,7 +379,7 @@ export default function PedidoPage() {
                             )}
                             <div className='flex text-center w-full'>
                                 <button className=" text-white bg-green-500 rounded-lg px-4 py-2 shadow-md shadow-green-300 hover:bg-green-600"
-                                    onClick={createPedidoResumo()}>Finalizar Pedido</button>
+                                    onClick={createPedidoResumo}>Finalizar Pedido</button>
                             </div>
                         </div>
 

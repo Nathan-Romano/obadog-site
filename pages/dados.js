@@ -149,7 +149,6 @@ export default function DadosPage() {
               id="referencia"
               onChange={handleChange}
               className="text-gray-900 border border-gray-300 px-2 py-1 rounded w-full"
-              required
             />
           </div>
           <div className=" justify-center mt-4 flex">

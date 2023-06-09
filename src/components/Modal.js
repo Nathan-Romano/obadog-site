@@ -105,8 +105,9 @@ export default function Modal({ isOpen, setModalOpen, selectedProductModal }) {
   if (isOpen && selectedProductModal) {
 
     return (
-      <div className="fixed top-0 left-0 bottom-0 right-0 backdrop-filter backdrop-blur-sm z-50">
-        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pb-4 bg-amber-50 rounded-lg shadow-md text-red-500 max-w-md font-sans items-center align-middle">
+      <div className="fixed top-0 left-0 bottom-0 right-0 backdrop-filter backdrop-blur-sm z-50 border border-gray-300">
+        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pb-4 bg-amber-50 rounded-lg 
+        shadow-md text-red-500 max-w-md font-sans items-center align-middle h-[550px] overflow-y-auto ">
           <button
             className="absolute top-2 p-2 right-2 text-amber-50 cursor-pointer font-black shadow-2xl bg-zinc-800 bg-opacity-60 rounded-lg"
             onClick={setModalOpen}

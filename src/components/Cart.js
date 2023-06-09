@@ -13,7 +13,11 @@ export const Cart = ({ setModalOpen }) => {
     };
 
     const handleFinishOrder = () => {
-        isDelivery ? router.push("/dados") : router.push("/pedido")
+        isDelivery ? (router.push("/dados")
+        ) : (
+            router.push("/pedido"),
+            localStorage.removeItem("dadosEntrega"), 
+            console.log("dadosentrega removido"))
         const storedCartItems = localStorage.getItem("cartItems");
         if (storedCartItems) {
             // Se houver dados salvos no localStorage, atualize o carrinho com esses dados
@@ -56,12 +60,12 @@ export const Cart = ({ setModalOpen }) => {
 
     
     return (
-        <div className="px-10 py-4">
+        <div className="px-8 py-4 h-[350px] overflow-y-auto w-full">
             <h2 className="text-zinc-900 text-2xl mb-4">Meu Carrinho</h2>
             <div>
                 <h2 className=" text-gray-900 font-semibold pt-2 pb-2">Seu pedido é para:</h2>
                 <div className="flex gap-4 pb-4">
-                    <div className="">
+                    <div className="flex gap-2">
                         <label className="text-gray-900">
                             <input
                                 className=""
@@ -70,11 +74,11 @@ export const Cart = ({ setModalOpen }) => {
                                 checked={isDelivery}
                                 onChange={handleDeliveryOptionChange}
                             />
-                            Entrega
+                             Entrega
                         </label>
                     </div>
-                    <div>
-                        <label className="pl-2 text-gray-900">
+                    <div className="flex gap-2">
+                        <label className="pl-2 text-gray-900 ">
                             <input
                                 className=""
                                 type="radio"
@@ -82,7 +86,7 @@ export const Cart = ({ setModalOpen }) => {
                                 checked={!isDelivery}
                                 onChange={handleDeliveryOptionChange}
                             />
-                            Retirada
+                             Retirada
                         </label>
                     </div>
                 </div>

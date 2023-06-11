@@ -65,7 +65,7 @@ export default function Header({ selectedCategory, setSelectedCategory }) {
             <p className="mb-4 text-l text-zinc-900 text-center">
                 <a target="_blank" href="https://maps.google.com/?q=Av Santa Catarina, 1250, Floresta, Joinville" className="text-gray-900 underline font-normal">Av Santa Catarina, 1250 - Floresta - Joinville</a>
             </p>
-            <div className="flex justify-evenly px-36">
+            <div className="flex justify-evenly px-36 gap-10 sm:gap-0 md:gap-0">
                 <div className="flex flex-col items-center">
                     <p className="text-l  text-zinc-900 text-center">Delivery</p>
                     <p className="text-l font-thin text-zinc-900 text-center">{handleEntrega} min.</p>

@@ -14,7 +14,6 @@ export default function Pedidos() {
       })
       const data = await res.json();
       setPedidos(data);
-      console.log(data);
     } catch (error) {
       console.error(error);
     }

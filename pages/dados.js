@@ -3,10 +3,10 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 var CryptoJS = require("crypto-js");
+require('dotenv').config();
 
 import InputMask from 'react-input-mask';
 
-const ENCRYPTION_KEY = process.env.KEY_KRYPTO_LOCAL_STORAGE
 
 export default function DadosPage() {
   const router = useRouter();
@@ -30,9 +30,7 @@ export default function DadosPage() {
         bairros: selectedBairro,
         taxaEntrega: bairroSelecionado.taxa,
       }
-      console.log(dadosEntrega);
-      const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(dadosEntrega), 'hndAWKUI8b04nvdspnabvnCXjxcoiashDYUWA').toString();
-      console.log(encryptedData);
+      const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(dadosEntrega), process.env.NEXT_PUBLIC_STORAGE).toString();
       localStorage.setItem('dadosEntrega', encryptedData);
       // Lógica para enviar os dados do endereço para onde for necessário
     }

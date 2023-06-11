@@ -7,6 +7,9 @@ var CryptoJS = require("crypto-js");
 import { v4 as uuidv4 } from 'uuid';
 const moment = require('moment');
 
+require('dotenv').config();
+
+
 export default function PedidoPage() {
     const { cartItems, setCartItems, isDelivery, clearCart } = useContext(CartContext);
     const [endereco, setEndereco] = useState('');
@@ -61,8 +64,7 @@ export default function PedidoPage() {
 
         const dadosEntrega = localStorage.getItem('dadosEntrega');
         if (dadosEntrega) {
-            //console.log(dadosEntrega)
-            const bytes = CryptoJS.AES.decrypt(dadosEntrega, 'hndAWKUI8b04nvdspnabvnCXjxcoiashDYUWA');
+            const bytes = CryptoJS.AES.decrypt(dadosEntrega, process.env.NEXT_PUBLIC_STORAGE);
             const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8))
             //console.log(decryptedData)
             const { endereco, taxaEntrega, numero, bairros, complemento } = decryptedData;
@@ -171,12 +173,12 @@ export default function PedidoPage() {
         });
         message += "DADOS DE ENTREGA\n";
         message += "Endereço: " + (endereco ? (endereco + ", " + numero + " - " + bairros) : "Pedido para retirada") + "\n";
-        message += "Complemento: " + (complemento ? complemento : "Não foi informado") + "\n";
+        (isDelivery ? (message += "Complemento: " + (complemento ? complemento : "Não foi informado") + "\n") : (""))
         message += "Forma de Pagamento: " + formaPagamento + "\n";
         if (formaPagamento === 'dinheiro') {
             if (precisaTroco) {
                 message += "Precisa de Troco: Sim\n";
-                message += "Valor do Troco: " + troco.toFixed(2) + "\n";
+                message += "Troco para: " + troco.toFixed(2) + "\n";
             } else {
                 message += "Precisa de Troco: Não\n";
             }

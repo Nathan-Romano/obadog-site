@@ -67,7 +67,7 @@ const Grid = ({ products, setUpdateList, selectedCategory, setSelectedCategory, 
     return (
         <div className="mx-auto max-w-3xl pt-16 ">
             <h2 className=" text-xl font-bold text-gray-900 dark:text-white dark:bg-gray-800 text-center rounded-t-lg pt-4">Produtos</h2>
-            <nav className="flex justify-center items-center py-4 dark:bg-gray-800 px-4 rounded-b-lg mb-4">
+            <nav className="inline-block justify-center items-center py-4 dark:bg-gray-800 px-4 rounded-b-lg mb-4 min-w-full sm:flex sm:w-full md:flex md:w-full lg:flex">
                 <button className={`hover:bg-blue-800 focus:outline-none  focus:bg-blue-900 text-sm font-medium bg-primary-700 rounded-l px-4 py-2 text-gray-900 dark:text-white ${selectedCategory === 'Todos' ? 'font-bold' : ''}`} onClick={() => setSelectedCategory('Todos')}>
                     Todos
                 </button>

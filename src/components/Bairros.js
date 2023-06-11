@@ -170,7 +170,7 @@ export default function Bairros() {
                                     <td className="px-6 py-4">
                                         R$ {bairro.taxa.toFixed(2)}
                                     </td>
-                                    <td className="px-6 py-4 flex justify-evenly">
+                                    <td className="px-6 py-4 flex-col">
                                         <button onClick={() => handleEdit(bairro)} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Editar</button>
                                         <button onClick={() => deleteBairro(bairro.id)} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Excluir</button>
                                     </td>

@@ -37,7 +37,7 @@ export default function Home() {
 
 
   // Agrupar produtos por categoria
-  const groupedProducts = products?.reduce((acc, product) => {
+  const groupedProducts = products && products?.reduce((acc, product) => {
     const category = product.categoria;
     if (!acc[category]) {
       acc[category] = [];

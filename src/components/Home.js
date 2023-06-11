@@ -3,8 +3,8 @@ import { ToastContainer, toast } from 'react-toastify'
 
 export default function HomeDashboardPage() {
   const [openState, setOpenState] = useState(0)
-  const [handleEntrega, setHandleEntrega] = useState()
-  const [handleRetirada, setHandleRetirada] = useState()
+  const [handleEntrega, setHandleEntrega] = useState('')
+  const [handleRetirada, setHandleRetirada] = useState('')
 
 
   // useEffect(() => {
@@ -36,7 +36,7 @@ export default function HomeDashboardPage() {
       const data = await res.json();
       const estado = data[0]?.estado;
       setOpenState(estado)
-      console.log(estado)
+      //console.log(estado)
     } catch (error) {
       console.error(error);
     }
@@ -55,7 +55,7 @@ export default function HomeDashboardPage() {
       const retirada = data[0]?.retirada
       setHandleEntrega(entrega)
       setHandleRetirada(retirada)
-      console.log(entrega)
+      //console.log(entrega)
     } catch (error) {
       console.error(error);
     }

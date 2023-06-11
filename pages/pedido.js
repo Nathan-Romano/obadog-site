@@ -4,11 +4,15 @@ import { IconCurrencyReal, IconX, IconMinus, IconPlus, IconChevronLeft } from "@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 var CryptoJS = require("crypto-js");
+import { v4 as uuidv4 } from 'uuid';
+const moment = require('moment');
 
 export default function PedidoPage() {
     const { cartItems, setCartItems, isDelivery, clearCart } = useContext(CartContext);
     const [endereco, setEndereco] = useState('');
+    const [complemento, setComplemento] = useState('');
     const [taxaEntrega, setTaxaEntrega] = useState(0);
+    const [status, setStatus] = useState(0);
     const [observacao, setObservacao] = useState('');
     const [numero, setNumero] = useState('');
     const [bairros, setBairros] = useState('');
@@ -17,7 +21,7 @@ export default function PedidoPage() {
     const [quantity, setQuantity] = useState(1);
     const [formaPagamento, setFormaPagamento] = useState('');
     const [troco, setTroco] = useState(0);
-    const [precisaTroco, setPrecisaTroco] = useState(false);
+    const [precisaTroco, setPrecisaTroco] = useState(0);
     const router = useRouter()
 
     async function fetchEspera() {
@@ -38,6 +42,17 @@ export default function PedidoPage() {
         }
     }
 
+    function generateIdentifier() {
+        // Gera um UUID v4
+        const uuid = uuidv4();
+
+        // Extrai os 4 últimos dígitos do UUID
+        const lastFourDigits = uuid.slice(-4);
+
+        // Retorna os 4 últimos dígitos como identificador
+        return lastFourDigits;
+    }
+
     useEffect(() => {
         const storedCartItems = localStorage.getItem('cartItems');
         if (storedCartItems) {
@@ -50,11 +65,12 @@ export default function PedidoPage() {
             const bytes = CryptoJS.AES.decrypt(dadosEntrega, 'hndAWKUI8b04nvdspnabvnCXjxcoiashDYUWA');
             const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8))
             //console.log(decryptedData)
-            const { endereco, taxaEntrega, numero, bairros } = decryptedData;
+            const { endereco, taxaEntrega, numero, bairros, complemento } = decryptedData;
             setEndereco(endereco);
             setTaxaEntrega(taxaEntrega);
             setNumero(numero)
             setBairros(bairros)
+            setComplemento(complemento);
         }
     }, []);
 
@@ -128,7 +144,7 @@ export default function PedidoPage() {
         setPrecisaTroco(event.target.value === 'sim');
     };
 
-    const handlePedidoFinalizado = () => {
+    const handlePedidoFinalizado = async () => {
         createPedidoResumo();
         clearCart();
         localStorage.removeItem('cartItems');
@@ -136,40 +152,85 @@ export default function PedidoPage() {
         router.push('/pedidofinalizado')
     }
 
-    const createPedidoResumo = () => {
-            let message = "Resumo do Pedido:\n\n";
-            message += "ITENS DO CARRINHO:\n";
-            cartItems.forEach((item) => {
-              message += "Nome: " + item.name + "\n";
-              message += "Preço do item: R$" + (item.price * item.quantity).toFixed(2) + "\n";
-              message += "Quantidade: " + item.quantity + "\n";
-              message += "Observação: " + (item.observacao ? item.observacao : "Não Informado") + "\n";
-              message += "Adicional por un.: " + (item.additionalIngredients.length > 0 ? item.additionalIngredients.join(", ") : "Não selecionado") + "\n\n";
-            });
-            message += "DADOS DE ENTREGA\n";
-            message += "Endereço: " + (endereco ? (endereco + ", " + numero + " - " + bairros) : "Pedido para retirada") + "\n";
-            message += "Forma de Pagamento: " + formaPagamento + "\n";
-            if (formaPagamento === 'dinheiro') {
-              if (precisaTroco) {
+
+    const createPedidoResumo = async () => {
+        //const timestamp = new Date().toISOString();
+        const timestamp = moment().format('DD/MM/YYYY - HH:mm:ss');
+        const pedidoId = generateIdentifier();
+        let message = "RESUMO DO PEDIDO\n";
+        console.log(timestamp);
+        message += "Status do pedido: " + (status === 0 ? "Preparando" : "") + "\n";
+        message += "Horario do pedido: " + timestamp + "\n\n";
+        message += "ITENS DO CARRINHO\n";
+        cartItems.forEach((item) => {
+            message += "Nome: " + item.name + "\n";
+            message += "Preço do item: R$" + (item.price * item.quantity).toFixed(2) + "\n";
+            message += "Quantidade: " + item.quantity + "\n";
+            message += "Observação: " + (item.observacao ? item.observacao : "Não Informado") + "\n";
+            message += "Adicional por un.: " + (item.additionalIngredients.length > 0 ? item.additionalIngredients.join(", ") : "Não selecionado") + "\n\n";
+        });
+        message += "DADOS DE ENTREGA\n";
+        message += "Endereço: " + (endereco ? (endereco + ", " + numero + " - " + bairros) : "Pedido para retirada") + "\n";
+        message += "Complemento: " + (complemento ? complemento : "Não foi informado") + "\n";
+        message += "Forma de Pagamento: " + formaPagamento + "\n";
+        if (formaPagamento === 'dinheiro') {
+            if (precisaTroco) {
                 message += "Precisa de Troco: Sim\n";
                 message += "Valor do Troco: " + troco.toFixed(2) + "\n";
-              } else {
-                message += "Precisa de Troco: Não\n";
-              }
-            }
-            if (isDelivery) {
-              message += "Entrega: " + tempoEntrega + "min\n";
-              message += "Taxa: " + taxaEntrega + "\n"
-              message += "TOTAL: R$" + calculateTotalPrice() + taxaEntrega + "\n\n";
             } else {
-              message += "Retirada: " + tempoRetirada + "min\n";
-              message += "TOTAL: R$" + calculateTotalPrice().toFixed(2) + "\n\n";
+                message += "Precisa de Troco: Não\n";
             }
-          
-            // Send the message via WhatsApp
-            const phoneNumber = "41998803189"; // Replace with the desired phone number
-            const url = "https://api.whatsapp.com/send?phone=" + phoneNumber + "&text=" + encodeURIComponent(message);
-            window.open(url, "_blank");
+        }
+        if (isDelivery) {
+            message += "Entrega: " + tempoEntrega + "min\n";
+            message += "Taxa: " + taxaEntrega.toFixed(2) + "\n"
+            message += "TOTAL: R$" + (calculateTotalPrice() + taxaEntrega).toFixed(2);
+        } else {
+            message += "Pedido ID: (Informe na hora de retirar): " + pedidoId + "\n";
+            message += "Retirada: " + tempoRetirada + "min\n";
+            message += "TOTAL: R$" + calculateTotalPrice().toFixed(2) + "\n\n";
+        }
+
+        // Send the message via WhatsApp
+        const phoneNumber = "41998803189"; // Replace with the desired phone number
+        const url = "https://api.whatsapp.com/send?phone=" + phoneNumber + "&text=" + encodeURIComponent(message);
+        window.open(url, "_blank");
+
+        const data = {
+            endereco: endereco ? (endereco + ", " + numero + " - " + bairros +" - "+ complemento) : "Pedido para retirada",
+            bairros: bairros ? bairros : "", 
+            numero: numero ? numero : "", 
+            status: status,
+            complemento:  complemento ? complemento : "Não foi informado",
+            forma_pagamento: formaPagamento,
+            precisa_troco: precisaTroco,
+            valor_troco: precisaTroco ? troco.toFixed(2) : 0,
+            tempo_min: isDelivery ? tempoEntrega : tempoRetirada,
+            taxa_entrega: isDelivery ? taxaEntrega.toFixed(2) : 0,
+            total: isDelivery ? (calculateTotalPrice() + taxaEntrega).toFixed(2) : calculateTotalPrice().toFixed(2),
+            horario_pedido: timestamp,
+            itens: cartItems.map(item => ({
+              nome: item.name,
+              preco: (item.price * item.quantity).toFixed(2),
+              quantidade: item.quantity,
+              observacao: item.observacao ? item.observacao : "Não Informado",
+              adicional_por_un: item.additionalIngredients.length > 0 ? item.additionalIngredients.join(", ") : "Não selecionado"
+            }))
+          };
+          console.log(data)
+          try {
+            const response = await fetch('api/pedido/addpedido', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+            });
+            const result = await response.json();
+        
+          } catch (error) {
+            console.error('Ocorreu um erro ao cadastrar o pedido:', error);
+          }
 
         // console.log("Resumo do Pedido:");
         // console.log("Itens do Carrinho:");
@@ -318,7 +379,7 @@ export default function PedidoPage() {
                                         value="cartao"
                                         checked={formaPagamento === 'cartao'}
                                         onChange={handleFormaPagamentoChange}
-                                        className="w-5 h-5 mr-2"
+                                        className="mr-2"
                                     />
                                     <span className='text-gray-900'>Pagamento com Cartão (Elo, Mastercard, Visa, Hipercard)</span>
                                 </label>
@@ -332,7 +393,7 @@ export default function PedidoPage() {
                                         value="dinheiro"
                                         checked={formaPagamento === 'dinheiro'}
                                         onChange={handleFormaPagamentoChange}
-                                        className="w-5 h-5 mr-2"
+                                        className="mr-2"
                                     />
                                     <span className='text-gray-900'>Pagamento em Dinheiro</span>
                                 </label>

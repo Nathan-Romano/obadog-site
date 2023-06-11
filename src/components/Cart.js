@@ -60,7 +60,7 @@ export const Cart = ({ setModalOpen }) => {
 
     
     return (
-        <div className="px-8 py-4 h-[350px] overflow-y-auto w-full">
+        <div className="px-8 py-4 h-auto overflow-y-auto w-[350] m-auto max-h-[450px] min-h-[350]">
             <h2 className="text-zinc-900 text-2xl mb-4">Meu Carrinho</h2>
             <div>
                 <h2 className=" text-gray-900 font-semibold pt-2 pb-2">Seu pedido é para:</h2>
@@ -68,7 +68,7 @@ export const Cart = ({ setModalOpen }) => {
                     <div className="flex gap-2">
                         <label className="text-gray-900">
                             <input
-                                className=""
+                                className="mr-2"
                                 type="radio"
                                 value="delivery"
                                 checked={isDelivery}
@@ -80,7 +80,7 @@ export const Cart = ({ setModalOpen }) => {
                     <div className="flex gap-2">
                         <label className="pl-2 text-gray-900 ">
                             <input
-                                className=""
+                                className="mr-2"
                                 type="radio"
                                 value="pickup"
                                 checked={!isDelivery}

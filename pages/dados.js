@@ -135,7 +135,6 @@ export default function DadosPage() {
               type="text"
               name="telefone"
               id="telefone"
-              value={dados.telefone}
               onChange={handleChange}
               className="text-gray-900 border border-gray-300 px-2 py-1 rounded w-full"
             />

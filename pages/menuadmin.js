@@ -5,6 +5,7 @@ import HomePage from "../src/components/Home"
 import React, { useState } from 'react';
 import PageDashboard from "./dashboard";
 import CadastroAdminPage from "./cadastroAdmin";
+import Pedidos from "../src/components/Pedidos"
 import { getCookie } from "cookies-next"
 import { verifica } from "../services/user"
 
@@ -17,10 +18,10 @@ export default function menuAdmin() {
     return (
         <div className="flex w-screen h-screen flex-grow">
             <Sidebar onProdutoClick={handleProdutosClick} />
-            <div className="flex-grow overflow-y-auto w-full h-screen">
+            <div className="flex-grow overflow-y-auto w-screen h-screen">
                 {selectedItem === "Home" ? <HomePage /> : ""}
                 {selectedItem === "Produtos" ? <PageDashboard /> : ""}
-                {selectedItem === "Pedidos" ? <div >em construção</div> : ""}
+                {selectedItem === "Pedidos" ? <Pedidos /> : ""}
                 {selectedItem === "Cadastrar" ? <CadastroAdminPage /> : ""}
                 {selectedItem === "Adicionais" ? <Adicionais /> : ""}
                 {selectedItem === "Bairros" ? <Bairros /> : ""}

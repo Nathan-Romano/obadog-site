@@ -116,7 +116,7 @@ export default function Adicionais() {
 
 
     return (
-        <div className="bg-gray-900 h-full w-full flex justify-center items-center">
+        <div className="bg-gray-900 w-full h-full flex justify-center items-center">
             <div className="max-w-3xl w-full bg-gray-800 shadow-sm rounded-lg p-5">
             <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white text-center">Cadastro Adicionais</h2>
                 <form ref={formRef} onSubmit={editingAddId ? handleSubmit(handleUpdate) : handleSubmit(createAdd)}>
@@ -160,16 +160,16 @@ export default function Adicionais() {
                         </tr>
                     </thead>
                     <tbody>
-                        {adds.map((add, index) => {
+                        {adds?.map((add) => {
                             return (
-                                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" key={index}>
+                                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" key={add.id}>
                                     <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {add.nome}
                                     </th>
                                     <td className="px-6 py-4">
                                         R$ {add.preco.toFixed(2)}
                                     </td>
-                                    <td className="px-6 py-4 flex justify-evenly">
+                                    <td className="px-6 py-4 flex-col justify-between gap-4">
                                         <button onClick={() => handleEdit(add)} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Editar</button>
                                         <button onClick={() => deleteAdd(add.id)} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Excluir</button>
                                     </td>

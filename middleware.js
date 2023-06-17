@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
  
 export function middleware(request) {
-  const allowedOrigins = 'http://localhost:3000'
+  const allowedOrigins = process.env.ALLOWED_ORIGINS_MIDDLEWARE
   const origin = request.nextUrl.origin
   // if (allowedOrigins === origin) {
   //   console.log("igual")

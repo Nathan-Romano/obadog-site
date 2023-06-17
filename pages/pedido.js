@@ -194,7 +194,7 @@ export default function PedidoPage() {
         }
 
         // Send the message via WhatsApp
-        const phoneNumber = "41998803189"; // Replace with the desired phone number
+        const phoneNumber = process.env.PHONE_NUMBER; // Replace with the desired phone number
         const url = "https://api.whatsapp.com/send?phone=" + phoneNumber + "&text=" + encodeURIComponent(message);
         window.open(url, "_blank");
 

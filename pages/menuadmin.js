@@ -4,7 +4,7 @@ import Bairros from "../src/components/Bairros";
 import HomePage from "../src/components/Home"
 import React, { useState } from 'react';
 import PageDashboard from "./dashboard";
-import CadastroAdminPage from "./cadastroAdmin";
+import CadastroAdminPage from "./cadastroadmin";
 import Pedidos from "../src/components/Pedidos"
 import { getCookie } from "cookies-next"
 import { verifica } from "../services/user"

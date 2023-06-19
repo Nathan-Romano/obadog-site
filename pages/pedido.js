@@ -206,11 +206,11 @@ export default function PedidoPage() {
         window.open(url, "_blank");
 
         const data = {
-            endereco: endereco ? (endereco + ", " + numero + " - " + bairros +" - "+ complemento) : "Pedido para retirada",
-            bairros: bairros ? bairros : "", 
-            numero: numero ? numero : "", 
+            endereco: endereco ? (endereco + ", " + numero + " - " + bairros + " - " + complemento) : "Pedido para retirada",
+            bairros: bairros ? bairros : "",
+            numero: numero ? numero : "",
             status: status,
-            complemento:  complemento ? complemento : "Não foi informado",
+            complemento: complemento ? complemento : "Não foi informado",
             forma_pagamento: formaPagamento,
             precisa_troco: precisaTroco,
             valor_troco: precisaTroco ? troco.toFixed(2) : 0,
@@ -219,28 +219,28 @@ export default function PedidoPage() {
             total: isDelivery ? (calculateTotalPrice() + taxaEntrega).toFixed(2) : calculateTotalPrice().toFixed(2),
             horario_pedido: timestamp,
             itens: cartItems.map(item => ({
-              nome: item.name,
-              preco: (item.price * item.quantity).toFixed(2),
-              quantidade: item.quantity,
-              observacao: item.observacao ? item.observacao : "Não Informado",
-              adicional_por_un: item.additionalIngredients.length > 0 ? item.additionalIngredients.join(", ") : "Não selecionado"
+                nome: item.name,
+                preco: (item.price * item.quantity).toFixed(2),
+                quantidade: item.quantity,
+                observacao: item.observacao ? item.observacao : "Não Informado",
+                adicional_por_un: item.additionalIngredients.length > 0 ? item.additionalIngredients.join(", ") : "Não selecionado"
             }))
-          };
-          console.log(data)
-          
-          try {
+        };
+        console.log(data)
+
+        try {
             const response = await fetch('api/pedido/addpedido', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(data)
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
             });
             const result = await response.json();
-        
-          } catch (error) {
+
+        } catch (error) {
             console.error('Ocorreu um erro ao cadastrar o pedido:', error);
-          }
+        }
 
         // console.log("Resumo do Pedido:");
         // console.log("Itens do Carrinho:");
@@ -274,7 +274,10 @@ export default function PedidoPage() {
         <div className='bg-amber-50 w-full h-screen pt-2'>
             <div className="container mx-auto px-8 py-8 pt-2 m-auto max-w-3xl bg-amber-50 w-full border border-gray-300  rounded-xl shadow-xl items-center">
                 <div className='w-full items-center flex text-center py-4 gap-4'>
-                    <Link href='/' className='text-amber-50 rounded-full bg-red-500 p-1 shadow-md shadow-red-300' ><IconChevronLeft /></Link>
+                    <Link href='/' className='text-amber-50 rounded-full bg-red-500 p-1 shadow-md shadow-red-300' onClick={() => {
+                        localStorage.removeItem("cartItems")
+                        clearCart()
+                    }}><IconChevronLeft /></Link>
                     <h1 className="text-2xl font-bold text-gray-900 text-center ">Carrinho de pedidos</h1>
                 </div>
 

@@ -1,15 +1,17 @@
 import { IconChevronLeft } from '@tabler/icons-react';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 var CryptoJS = require("crypto-js");
 require('dotenv').config();
 
 import InputMask from 'react-input-mask';
+import { CartContext } from '../src/components/CartContext';
 
 
 export default function DadosPage() {
   const router = useRouter();
+  const { clearCart } = useContext(CartContext);
   const [selectedBairro, setSelectedBairro] = useState("");
   const [dados, setDados] = useState({
     bairros: "",
@@ -70,7 +72,8 @@ export default function DadosPage() {
     <div className="bg-amber-50 w-full h-screen pt-2">
       <div className="container mx-auto px-8 py-4 pt-2 m-auto max-w-3xl bg-amber-50 w-full border border-gray-300  rounded-xl shadow-xl items-center">
         <div className='w-full items-center flex text-center py-4 gap-4'>
-          <Link href='/' className='text-amber-50 rounded-full bg-red-500 p-1 shadow-md shadow-red-300' ><IconChevronLeft /></Link>
+          <Link href='/' className='text-amber-50 rounded-full bg-red-500 p-1 shadow-md shadow-red-300' onClick={ () => {localStorage.removeItem("cartItems") 
+          clearCart()}}><IconChevronLeft /></Link>
           <h1 className="text-2xl font-bold text-gray-900 text-center ">Dados de Entrega</h1>
         </div>
         <form onSubmit={handleSubmit} className='w-full'>

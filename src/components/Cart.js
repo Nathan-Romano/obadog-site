@@ -43,6 +43,8 @@ export const Cart = ({ setModalOpen }) => {
 
     const handleClearCart = () => {
         clearCart();
+        localStorage.removeItem("dadosEntrega")
+        localStorage.removeItem("cartItems")
         setModalOpen(false);
     };
 

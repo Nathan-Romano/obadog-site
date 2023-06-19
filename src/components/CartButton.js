@@ -37,7 +37,7 @@ export const CartButton = () => {
 
     return (
         <div>
-            {cartItems.length > 0 && (
+            {cartItems && cartItems.length > 0 && (
                 <button
                     className="fixed bottom-4 right-4 bg-red-500 rounded-full p-2 shadow-lg z-50 hover:bg-red-600"
                     onClick={toggleModal}

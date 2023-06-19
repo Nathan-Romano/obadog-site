@@ -68,7 +68,7 @@ export default function Pedidos() {
 
   return (
     <div className="bg-gray-900 w-full h-screen flex justify-center items-center min-w-full">
-      <div className="max-w-5xl w-full bg-gray-800 shadow-sm rounded-lg p-5 overflow-x-auto">
+      <div className="max-w-5xl w-full bg-gray-800 shadow-sm rounded-lg p-5 overflow-x-auto max-h-[700px] overflow-y-auto">
         <div className="p-4 text-gray-200 inline-block min-w-full py-2 sm:px-6 lg:px-8">
           <div className='overflow-x-auto md:flex-col'>
           <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white text-center sm:-mx-6 lg:-mx-8">Pedidos</h2>

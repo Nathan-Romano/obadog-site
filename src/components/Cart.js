@@ -8,6 +8,8 @@ export const Cart = ({ setModalOpen }) => {
     const router = useRouter()
     const { cartItems, setCartItems, clearCart, hasItems, isDelivery, setIsDelivery } = useContext(CartContext);
 
+    
+
     const handleDeliveryOptionChange = (event) => {
         setIsDelivery(event.target.value === "delivery");
     };

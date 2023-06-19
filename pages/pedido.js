@@ -17,8 +17,10 @@ export default function PedidoPage() {
     const [taxaEntrega, setTaxaEntrega] = useState(0);
     const [status, setStatus] = useState(0);
     const [observacao, setObservacao] = useState('');
+    const [telefone, setTelefone] = useState(0);
     const [numero, setNumero] = useState('');
     const [bairros, setBairros] = useState('');
+    const [nome, setNome] = useState('');
     const [tempoRetirada, setTempoRetirada] = useState('')
     const [tempoEntrega, setTempoEntrega] = useState('')
     const [quantity, setQuantity] = useState(1);
@@ -67,12 +69,14 @@ export default function PedidoPage() {
             const bytes = CryptoJS.AES.decrypt(dadosEntrega, process.env.NEXT_PUBLIC_STORAGE);
             const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8))
             //console.log(decryptedData)
-            const { endereco, taxaEntrega, numero, bairros, complemento } = decryptedData;
+            const { endereco, taxaEntrega, numero, bairros, complemento, nome, telefone } = decryptedData;
             setEndereco(endereco);
             setTaxaEntrega(taxaEntrega);
             setNumero(numero)
             setBairros(bairros)
             setComplemento(complemento);
+            setNome(nome);
+            setTelefone(telefone)
         }
     }, []);
 
@@ -172,6 +176,8 @@ export default function PedidoPage() {
             message += "Adicional por un.: " + (item.additionalIngredients.length > 0 ? item.additionalIngredients.join(", ") : "Não selecionado") + "\n\n";
         });
         message += "DADOS DE ENTREGA\n";
+        (isDelivery ? (message += "Nome: " + nome + "\n") : (''));
+        (isDelivery ? (message += "Telefone: " + telefone + "\n") : (''));
         message += "Endereço: " + (endereco ? (endereco + ", " + numero + " - " + bairros) : "Pedido para retirada") + "\n";
         (isDelivery ? (message += "Complemento: " + (complemento ? complemento : "Não foi informado") + "\n") : (""))
         message += "Forma de Pagamento: " + formaPagamento + "\n";
@@ -194,7 +200,8 @@ export default function PedidoPage() {
         }
 
         // Send the message via WhatsApp
-        const phoneNumber = process.env.PHONE_NUMBER; // Replace with the desired phone number
+        const phoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER // Replace with the desired phone number
+        console.log('numero', phoneNumber)
         const url = "https://api.whatsapp.com/send?phone=" + phoneNumber + "&text=" + encodeURIComponent(message);
         window.open(url, "_blank");
 
@@ -220,6 +227,7 @@ export default function PedidoPage() {
             }))
           };
           console.log(data)
+          
           try {
             const response = await fetch('api/pedido/addpedido', {
               method: 'POST',

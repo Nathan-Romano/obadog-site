@@ -16,6 +16,7 @@ export default function DadosPage() {
     endereco: "",
     numero: "",
     complemento: "",
+    nome: "",
     telefone: "",
     referencia: "",
   });
@@ -120,6 +121,18 @@ export default function DadosPage() {
               type="complemento"
               name='complemento'
               id="complemento"
+              onChange={handleChange}
+              className="text-gray-900 border border-gray-300 px-2 py-1 rounded w-full"
+              required
+            />
+          </div>
+
+          <div className=" gap-4  w-full items-center">
+            <label className="text-gray-900">Nome:</label>
+            <input
+              type="nome"
+              name='nome'
+              id="nome"
               onChange={handleChange}
               className="text-gray-900 border border-gray-300 px-2 py-1 rounded w-full"
               required

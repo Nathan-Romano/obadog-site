@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { IconCreditCard, IconClockHour3, IconInfoCircle, IconX } from "@tabler/icons-react"
 import Maps from "./Maps"
-
+import Image from 'next/image';
 
 import Visa from "../components/Visa"
 import MasterCard from "../components/MasterCard"
@@ -61,7 +61,10 @@ export default function Header({ selectedCategory, setSelectedCategory }) {
 
     return (
         <header className="justify-center sticky top-0">
-            <h2 className="mb-4 text-2xl font-bold text-zinc-900 text-center tracking-wide">OBADOG</h2>
+            <div className="flex flex-col justify-center items-center">
+                {/* <h2 className="text-2xl font-bold text-zinc-900 text-center tracking-wide">OBADOG</h2> */}
+                <Image className="text-center justify-center" src="/logo.png" alt="Logo" width={120} height={90} />
+            </div>
             <p className="mb-4 text-l text-zinc-900 text-center">
                 <a target="_blank" href="https://maps.google.com/?q=Av Santa Catarina, 1250, Floresta, Joinville" className="text-gray-900 underline font-normal">Av Santa Catarina, 1250 - Floresta - Joinville</a>
             </p>

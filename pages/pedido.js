@@ -17,7 +17,7 @@ export default function PedidoPage() {
     const [taxaEntrega, setTaxaEntrega] = useState(0);
     const [status, setStatus] = useState(0);
     const [observacao, setObservacao] = useState('');
-    const [telefone, setTelefone] = useState(0);
+    const [telefone, setTelefone] = useState('');
     const [numero, setNumero] = useState('');
     const [bairros, setBairros] = useState('');
     const [nome, setNome] = useState('');
@@ -69,13 +69,13 @@ export default function PedidoPage() {
             const bytes = CryptoJS.AES.decrypt(dadosEntrega, process.env.NEXT_PUBLIC_STORAGE);
             const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8))
             //console.log(decryptedData)
-            const { endereco, taxaEntrega, numero, bairros, complemento, nome, telefone } = decryptedData;
+            const { endereco, taxaEntrega, numero, bairros, complemento, nome_cliente, telefone } = decryptedData;
             setEndereco(endereco);
             setTaxaEntrega(taxaEntrega);
             setNumero(numero)
             setBairros(bairros)
             setComplemento(complemento);
-            setNome(nome);
+            setNome(nome_cliente);
             setTelefone(telefone)
         }
     }, []);
@@ -164,7 +164,7 @@ export default function PedidoPage() {
         const timestamp = moment().format('DD/MM/YYYY - HH:mm:ss');
         const pedidoId = generateIdentifier();
         let message = "RESUMO DO PEDIDO\n";
-        console.log(timestamp);
+        //console.log(timestamp);
         message += "Status do pedido: " + (status === 0 ? "Preparando" : "") + "\n";
         message += "Horario do pedido: " + timestamp + "\n\n";
         message += "ITENS DO CARRINHO\n";
@@ -201,11 +201,13 @@ export default function PedidoPage() {
 
         // Send the message via WhatsApp
         const phoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER // Replace with the desired phone number
-        console.log('numero', phoneNumber)
+        //console.log('numero', phoneNumber)
         const url = "https://api.whatsapp.com/send?phone=" + phoneNumber + "&text=" + encodeURIComponent(message);
         window.open(url, "_blank");
 
         const data = {
+            nome: nome ? nome : "",
+            telefone: telefone ? telefone : "",
             endereco: endereco ? (endereco + ", " + numero + " - " + bairros + " - " + complemento) : "Pedido para retirada",
             bairros: bairros ? bairros : "",
             numero: numero ? numero : "",
@@ -226,7 +228,7 @@ export default function PedidoPage() {
                 adicional_por_un: item.additionalIngredients.length > 0 ? item.additionalIngredients.join(", ") : "Não selecionado"
             }))
         };
-        console.log(data)
+        //console.log(data)
 
         try {
             const response = await fetch('api/pedido/addpedido', {

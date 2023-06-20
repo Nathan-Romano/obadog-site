@@ -36,6 +36,8 @@ function transformarResultados(result) {
         if (!pedidos[pedidoId]) {
             pedidos[pedidoId] = {
                 id: row.id,
+                nome_cliente: row.nome_cliente,
+                telefone: row.telefone, 
                 endereco: row.endereco,
                 numero: row.numero,
                 status: row.status,
@@ -78,6 +80,8 @@ export async function getPedidoItemById(pedidoId) {
     // Transformar o resultado em um formato adequado
     const pedido = {
         id: result[0].id,
+        nome_cliente: result[0].nome_cliente,
+        telefone: result[0].telefone,
         endereco: result[0].endereco,
         numero: result[0].numero,
         status: result[0].status,
@@ -112,10 +116,12 @@ export async function getPedidoItemById(pedidoId) {
 export async function addPedido(pedido) {
     // Inserir o pedido na tabela 'pedido'
     const insertPedidoQuery = `
-      INSERT INTO pedido (endereco, numero, status, complemento, bairros, forma_pagamento, precisa_troco, valor_troco, tempo_min, taxa_entrega, total, horario_pedido)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO pedido (nome_cliente, telefone, endereco, numero, status, complemento, bairros, forma_pagamento, precisa_troco, valor_troco, tempo_min, taxa_entrega, total, horario_pedido)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
     const pedidoValues = [
+        pedido.nome_cliente, 
+        pedido.telefone, 
         pedido.endereco,
         pedido.numero,
         pedido.status,
@@ -162,6 +168,8 @@ export async function addPedido(pedido) {
 
         return {
             id: pedidoId,
+            nome_cliente: pedido.nome_cliente,
+            telefone: pedido.telefone, 
             endereco: pedido.endereco,
             complemento: pedido.complemento,
             numero: pedido.numero,
@@ -193,7 +201,9 @@ export async function updatePedido(id, body) {
     // Executa a query de atualização
     const query = `
       UPDATE pedido
-      SET endereco = ?,
+      SET nome_cliente = ?,
+          telefone = ?,
+          endereco = ?,
           numero = ?,
           status = ?,
           complemento = ?,
@@ -209,6 +219,8 @@ export async function updatePedido(id, body) {
     `;
     const values = [
       body.endereco,
+      body.nome_cliente,
+      body.telefone,
       body.numero,
       body.status,
       body.complemento,
@@ -227,6 +239,8 @@ export async function updatePedido(id, body) {
     // Retorna o pedido atualizado
     const updatedPedido = {
       id: id,
+      nome_cliente: body.nome_cliente,
+      telefone: body.telefone,
       endereco: body.endereco,
       numero: body.numero,
       status: body.status,

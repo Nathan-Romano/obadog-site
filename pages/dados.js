@@ -18,7 +18,7 @@ export default function DadosPage() {
     endereco: "",
     numero: "",
     complemento: "",
-    nome: "",
+    nome_cliente: "",
     telefone: "",
     referencia: "",
   });
@@ -58,7 +58,7 @@ export default function DadosPage() {
       });
       const data = await res.json();
       setBairros(data);
-      console.log(data);
+      //console.log(data);
       // Handle the error or set a default value for bairros
     } catch (error) {
       console.error(error);
@@ -133,9 +133,9 @@ export default function DadosPage() {
           <div className=" gap-4  w-full items-center">
             <label className="text-gray-900">Nome:</label>
             <input
-              type="nome"
-              name='nome'
-              id="nome"
+              type="text"
+              name='nome_cliente'
+              id="nome_cliente"
               onChange={handleChange}
               className="text-gray-900 border border-gray-300 px-2 py-1 rounded w-full"
               required

@@ -92,6 +92,8 @@ export default function Pedidos() {
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                   <th className="p-2 border border-gray-400">Pedido ID</th>
+                  <th className="p-2 border border-gray-400">Nome</th>
+                  <th className="p-2 border border-gray-400">Telefone</th>
                   <th className="p-2 border border-gray-400">Endereço</th>
                   <th className="p-2 border border-gray-400">Forma de Pagamento</th>
                   <th className="p-2 border border-gray-400">Horário do Pedido</th>
@@ -104,6 +106,8 @@ export default function Pedidos() {
                 {pedidosFiltrados?.map((pedido) => (
                   <tr className="bg-white border rounded-sm dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" key={pedido.id}>
                     <td className="p-2 border border-gray-400">{pedido.id} Status: {pedido.status}</td>
+                    <td className="p-2 border border-gray-400">{pedido.nome_cliente}</td>
+                    <td className="p-2 border border-gray-400">{pedido.telefone}</td>
                     <td className="p-2 border border-gray-400">{pedido.endereco} Taxa: R${pedido.taxa_entrega.toFixed(2)}</td>
                     <td className="p-2 border border-gray-400">{pedido.forma_pagamento}</td>
                     <td className="p-2 border border-gray-400">{pedido.horario_pedido}</td>

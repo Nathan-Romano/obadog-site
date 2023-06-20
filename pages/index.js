@@ -26,7 +26,7 @@ export default function Home() {
       const data = await res.json();
       const estado = data[0]?.estado;
       setOperationStatus(estado)
-      console.log(estado)
+      //console.log(estado)
     } catch (error) {
       console.error(error);
     }
@@ -86,7 +86,7 @@ export default function Home() {
                 <p className="flex text-red-500 text-xl px-4" ><IconCurrencyReal className="text-red-500 pt-1" />{product.preco}</p>
                 <button className=" bg-red-500 hover:bg-red-600 rounded-full mr-4 p-1 shadow-md shadow-red-300"
                   onClick={() => {fetchState()
-                    console.log(operationStatus)
+                    //console.log(operationStatus)
                     operationStatus === 'FECHADO' ?
                       setMessageClosed(!msgClosed) : 
                       setSelectedProduct(product)

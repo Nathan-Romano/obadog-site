@@ -67,7 +67,7 @@ export default function Modal({ isOpen, setModalOpen, selectedProductModal }) {
 
     // Adicione o item ao carrinho de compras
     addItemToCart(item);
-    console.log('item add', item)
+    //console.log('item add', item)
     //localStorage.setItem('cartItems', JSON.stringify(item))
     // Feche o modal (opcional)
     setModalOpen(false);

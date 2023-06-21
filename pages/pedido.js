@@ -20,7 +20,7 @@ export default function PedidoPage() {
     const [telefone, setTelefone] = useState('');
     const [numero, setNumero] = useState('');
     const [bairros, setBairros] = useState('');
-    const [nome, setNome] = useState('');
+    const [nomeCliente, setNomeCliente] = useState('');
     const [tempoRetirada, setTempoRetirada] = useState('')
     const [tempoEntrega, setTempoEntrega] = useState('')
     const [quantity, setQuantity] = useState(1);
@@ -75,7 +75,7 @@ export default function PedidoPage() {
             setNumero(numero)
             setBairros(bairros)
             setComplemento(complemento);
-            setNome(nome_cliente);
+            setNomeCliente(nome_cliente);
             setTelefone(telefone)
         }
     }, []);
@@ -176,7 +176,7 @@ export default function PedidoPage() {
             message += "Adicional por un.: " + (item.additionalIngredients.length > 0 ? item.additionalIngredients.join(", ") : "Não selecionado") + "\n\n";
         });
         message += "DADOS DE ENTREGA\n";
-        (isDelivery ? (message += "Nome: " + nome + "\n") : (''));
+        (isDelivery ? (message += "Nome: " + nomeCliente + "\n") : (''));
         (isDelivery ? (message += "Telefone: " + telefone + "\n") : (''));
         message += "Endereço: " + (endereco ? (endereco + ", " + numero + " - " + bairros) : "Pedido para retirada") + "\n";
         (isDelivery ? (message += "Complemento: " + (complemento ? complemento : "Não foi informado") + "\n") : (""))
@@ -206,7 +206,7 @@ export default function PedidoPage() {
         window.open(url, "_blank");
 
         const data = {
-            nome: nome ? nome : "",
+            nome_cliente: nomeCliente ? nomeCliente : "",
             telefone: telefone ? telefone : "",
             endereco: endereco ? (endereco + ", " + numero + " - " + bairros + " - " + complemento) : "Pedido para retirada",
             bairros: bairros ? bairros : "",
@@ -228,7 +228,7 @@ export default function PedidoPage() {
                 adicional_por_un: item.additionalIngredients.length > 0 ? item.additionalIngredients.join(", ") : "Não selecionado"
             }))
         };
-        //console.log(data)
+        console.log(data)
 
         try {
             const response = await fetch('api/pedido/addpedido', {

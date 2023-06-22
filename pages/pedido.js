@@ -228,7 +228,7 @@ export default function PedidoPage() {
                 adicional_por_un: item.additionalIngredients.length > 0 ? item.additionalIngredients.join(", ") : "Não selecionado"
             }))
         };
-        console.log(data)
+        //console.log(data)
 
         try {
             const response = await fetch('api/pedido/addpedido', {

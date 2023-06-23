@@ -89,7 +89,7 @@ const Grid = ({ products, setUpdateList, selectedCategory, setSelectedCategory, 
                 {filteredProducts && filteredProducts.map((product, index) => {
                     return (
                         <div className="flex flex-col bg-white dark:bg-gray-800 mx-auto lg:py-2 p-2 shadow-sm rounded-lg w-full justify-between h-full" key={index}>
-                            <img src={product.foto} alt={product.nome} className="h-52 w-full object-cover rounded-lg rounded-b-none mb-4" />
+                            <img src={product.foto} alt={product.nome} className="h-52 w-full rounded-lg rounded-b-none mb-4 scale-100" />
                             <h2 className="text-3xl font-semibold text-gray-900 dark:text-white text-center">{product.nome}</h2>
                             <p className="text-gray-700 dark:text-gray-300 p-6 text-justify">{product.descricao}</p>
                             <div className="flex justify-between align-bottom mt-auto">

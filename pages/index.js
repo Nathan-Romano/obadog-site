@@ -79,7 +79,7 @@ export default function Home() {
         {filteredProducts && filteredProducts.map((product, index) => {
           return (
             <div className="flex flex-col bg-amber-50 mx-auto shadow-xl rounded-3xl w-full justify-between hover:border-red-500 border-transparent border-b-2" key={index}>
-              <img src={product.foto} alt={product.nome} className="h-52 w-full object-cover rounded-t-3xl rounded-b-none mb-2" />
+              <img src={product.foto} alt={product.nome} className="h-60 w-full object-cover rounded-t-3xl rounded-b-none mb-2 scale-100" />
               <h1 className="text-xl font-medium text-gray-900 px-4">{product.nome}</h1>
               <p className="text-gray-500 px-4 pt-2 line-clamp-1 mb-2 font-varela">{product.descricao}</p>
               <div className="flex justify-between items-center mt-auto pb-4">

@@ -2,7 +2,6 @@ import { IconShoppingCart, IconCurrencyReal } from "@tabler/icons-react";
 import { useState, useEffect } from "react"
 import Modal from "../src/components/Modal"
 import Header from "../src/components/Header";
-import HomePageDashboard from "../src/components/Home";
 import { ToastContainer, toast } from "react-toastify";
 
 export default function Home() {

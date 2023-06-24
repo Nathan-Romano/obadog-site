@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import Modal from "../src/components/Modal"
 import Header from "../src/components/Header";
 import { ToastContainer, toast } from "react-toastify";
+import Image from "next/image";
 
 export default function Home() {
   const [products, setProducts] = useState([])
@@ -13,6 +14,7 @@ export default function Home() {
   const [openModal, setOpenModal] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [msgClosed, setMessageClosed] = useState(false)
+  const [isLoading, setIsLoading] = useState(true);
 
   async function fetchState() {
     try {
@@ -46,12 +48,24 @@ export default function Home() {
       setUpdateList(false);
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   }
   useEffect(() => {
     fetchProducts();
     fetchState();
   }, [updateList]);
+
+  if (isLoading) {
+    // Mostrar um componente de loading ou mensagem de carregamento
+    return (
+      <div className="pt-2 flex flex-col bg-amber-50 w-full justify-center items-center">
+        <Image className="text-center justify-center rounded-lg" src="/scooby.gif" alt="Scooby" width={300} height={300} />
+        <p className="text-gray-950 font-semibold text-lg">Carregando...</p>;
+      </div>
+    )
+  }
 
 
   // Agrupar produtos por categoria
@@ -84,16 +98,17 @@ export default function Home() {
               <div className="flex justify-between items-center mt-auto pb-4">
                 <p className="flex text-red-500 text-xl px-4" ><IconCurrencyReal className="text-red-500 pt-1" />{product.preco}</p>
                 <button className=" bg-red-500 hover:bg-red-600 rounded-full mr-4 p-1 shadow-md shadow-red-300"
-                  onClick={() => {fetchState()
+                  onClick={() => {
+                    fetchState()
                     //console.log(operationStatus)
                     operationStatus === 'FECHADO' ?
-                      setMessageClosed(!msgClosed) : 
+                      setMessageClosed(!msgClosed) :
                       setSelectedProduct(product)
                     setOpenModal(true)
                   }}>
                   <IconShoppingCart className=" text-amber-50 p-1" />
                 </button>
-                
+
               </div>
               <Modal isOpen={openModal} setModalOpen={() => setOpenModal(!openModal)} selectedProductModal={selectedProduct} />
             </div>

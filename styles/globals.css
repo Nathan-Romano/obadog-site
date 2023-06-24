@@ -48,3 +48,9 @@ body {
   margin-top: 80px;
   color:white;
 }
+
+.scroll-transition {
+  transition-property: transform;
+  transition-duration: 0.3s;
+}
+

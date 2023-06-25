@@ -4,8 +4,8 @@ import Modal from "../src/components/Modal"
 import Header from "../src/components/Header";
 import LoadingPage from '../src/components/LoadingPage'
 
-export default function Home({ products, operationStatus }) {
-  // const [products, setProducts] = useState([])
+export default function Home({ products }) {
+  //const [products, setProducts] = useState([])
   const [updateList, setUpdateList] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState('hotdogs')
   // const [operationStatus, setOperationStatus] = useState('')
@@ -30,8 +30,8 @@ export default function Home({ products, operationStatus }) {
   //   } catch (error) {
   //     console.error(error);
   //   } finally {
-  //   setIsLoading(false);
-  // }
+  //     setIsLoading(false);
+  //   }
   // }
 
   // async function fetchProducts() {
@@ -54,8 +54,8 @@ export default function Home({ products, operationStatus }) {
   //   }
   // }
   // useEffect(() => {
-  //   // fetchProducts();
-  //   // fetchState();
+  //   //fetchProducts();
+  //   //fetchState();
   // }, [updateList]);
 
   // if (isLoading) {
@@ -117,39 +117,29 @@ export default function Home({ products, operationStatus }) {
 }
 
 export async function getStaticProps() {
-  try {
-    const resState = await fetch('/api/operacao/getestado', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    });
-    const dataState = await resState.json();
-    const estado = dataState[0]?.estado;
+  const resP = await fetch('https://www.obadog.com.br/api/produtos/getproduct', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
+  const resS = await fetch('https://www.obadog.com.br/api/operacao/getestado', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
 
-    const resProducts = await fetch('/api/produtos/getproduct', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    });
-    const dataProducts = await resProducts.json();
-
-    return {
-      props: {
-        products: dataProducts,
-        operationStatus: estado,
-      },
-    };
-  } catch (error) {
-    console.error(error);
-    return {
-      props: {
-        products: [],
-        operationStatus: '',
-      },
-    };
+  const operationStatus = await resS.json()
+  const products = await resP.json()
+  return {
+    props: {
+      products,
+      operationStatus,
+    },
   }
 }
+
+
 
 

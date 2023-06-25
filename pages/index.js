@@ -118,7 +118,7 @@ export default function Home() {
   )
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   // Simplesmente retorna um objeto vazio, pois não precisa buscar dados para a página de loading
   return {
     props: {

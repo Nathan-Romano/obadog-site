@@ -5,7 +5,6 @@ export default function Document() {
     <Html lang="en">
       <Head >
       <link rel="icon" href="/favicon32.png" />
-      <title>Obadog</title>
       </Head>
       <body>
         <Main />

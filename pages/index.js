@@ -2,10 +2,11 @@ import { IconShoppingCart, IconCurrencyReal } from "@tabler/icons-react";
 import { useState, useEffect } from "react"
 import Modal from "../src/components/Modal"
 import Header from "../src/components/Header";
-import { ToastContainer, toast } from "react-toastify";
-import Image from "next/image";
+import { useRouter } from "next/router";
+import LoadingPage from '../src/components/LoadingPage'
 
 export default function Home() {
+  const router = useRouter();
   const [products, setProducts] = useState([])
   const [updateList, setUpdateList] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState('hotdogs')
@@ -30,7 +31,9 @@ export default function Home() {
       //console.log(estado)
     } catch (error) {
       console.error(error);
-    }
+    } finally {
+    setIsLoading(false);
+  }
   }
 
   async function fetchProducts() {
@@ -60,10 +63,7 @@ export default function Home() {
   if (isLoading) {
     // Mostrar um componente de loading ou mensagem de carregamento
     return (
-      <div className="pt-2 flex flex-col bg-amber-50 w-full h-screen justify-center items-center">
-        <Image className="text-center justify-center rounded-lg" src="/scooby.gif" alt="Scooby" width={300} height={300} />
-        <p className="text-gray-950 font-semibold text-lg">Carregando...</p>;
-      </div>
+      <LoadingPage />
     )
   }
 
@@ -83,7 +83,6 @@ export default function Home() {
 
   return (
     <section className="bg-amber-50 font-['system-ui'] min-h-screen">
-
       <div className="pt-2 m-auto max-w-3xl bg-amber-50 w-full rounded-xl shadow-xl">
         <Header selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
         {msgClosed ? (<p className="text-gray-900 text-center">Não é possivel fazer pedido com a loja fechada. Por favor, verifique nosso horario de atendimento.</p>) : ('')}
@@ -92,7 +91,7 @@ export default function Home() {
         {filteredProducts && filteredProducts.map((product, index) => {
           return (
             <div className="flex flex-col bg-amber-50 mx-auto shadow-xl rounded-3xl w-full justify-between hover:border-red-500 border-transparent border-b-2" key={index}>
-              <img src={product.foto} alt={product.nome} className="h-60 w-full object-cover rounded-t-3xl rounded-b-none mb-2 scale-100" />
+              <img src={product.foto} alt={product.nome} className="h-60 w-full object-cover rounded-t-3xl rounded-b-none mb-2" />
               <h1 className="text-xl font-medium text-gray-900 px-4">{product.nome}</h1>
               <p className="text-gray-500 px-4 pt-2 line-clamp-1 mb-2 font-varela">{product.descricao}</p>
               <div className="flex justify-between items-center mt-auto pb-4">
@@ -115,7 +114,17 @@ export default function Home() {
           )
         })}
       </div>
-
     </section>
   )
 }
+
+export async function getServerSideProps() {
+  // Simplesmente retorna um objeto vazio, pois não precisa buscar dados para a página de loading
+  return {
+    props: {
+      isLoading: true,
+    },
+  };
+}
+
+

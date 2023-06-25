@@ -79,16 +79,16 @@ export default function Header({ selectedCategory, setSelectedCategory }) {
                 </div>
             </div>
             <div className="mt-6 flex justify-between px-16">
-                <div className="flex flex-col items-center">
-                    <p className="text-l  text-zinc-900 text-center cursor-pointer hover:text-red-500" onClick={() => { setModalOpen(true); setSelectedModal("pagamento"); }}>Pagamento</p>
+                <div className="flex flex-col items-center cursor-pointer" onClick={() => { setModalOpen(true); setSelectedModal("pagamento"); }}>
+                    <p className="text-l  text-zinc-900 text-center" >Pagamento</p>
                     <IconCreditCard className="text-zinc-900" />
                 </div>
-                <div className="flex flex-col items-center">
-                    <p className="text-l  text-zinc-900 text-center cursor-pointer hover:text-red-500 " onClick={() => { setModalOpen(true); setSelectedModal("horarios"); }}>Horários</p>
+                <div className="flex flex-col items-center cursor-pointer" onClick={() => { setModalOpen(true); setSelectedModal("horarios"); }}>
+                    <p className="text-l  text-zinc-900 text-center " >Horários</p>
                     <IconClockHour3 className="text-zinc-900" />
                 </div>
-                <div className="flex flex-col items-center">
-                    <p className="text-l text-zinc-900 text-center cursor-pointer hover:text-red-500 " onClick={() => { setModalOpen(true); setSelectedModal("info"); }}>Informações</p>
+                <div className="flex flex-col items-center cursor-pointer" onClick={() => { setModalOpen(true); setSelectedModal("info"); }}>
+                    <p className="text-l text-zinc-900 text-center " >Informações</p>
                     <IconInfoCircle className="text-zinc-900" />
                 </div>
             </div>
@@ -108,7 +108,7 @@ export default function Header({ selectedCategory, setSelectedCategory }) {
                 </button>
             </nav>
             {modalOpen && (
-                <div className="fixed top-0 left-0 bottom-0 right-0 backdrop-filter backdrop-blur-sm z-50">
+                <div className="fixed top-0 left-0 bottom-0 right-0 backdrop-filter backdrop-blur-sm z-[100]">
                     <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pb-4 bg-amber-50 rounded-lg shadow-md text-red-500 max-w-md font-sans items-center align-middle">
                         {selectedModal === "pagamento" ?
                             < div className="px-10 py-4">

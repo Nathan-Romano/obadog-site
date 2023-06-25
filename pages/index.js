@@ -2,70 +2,68 @@ import { IconShoppingCart, IconCurrencyReal } from "@tabler/icons-react";
 import { useState, useEffect } from "react"
 import Modal from "../src/components/Modal"
 import Header from "../src/components/Header";
-import { useRouter } from "next/router";
 import LoadingPage from '../src/components/LoadingPage'
 
-export default function Home() {
-  const router = useRouter();
-  const [products, setProducts] = useState([])
+export default function Home({ products, operationStatus }) {
+  // const [products, setProducts] = useState([])
   const [updateList, setUpdateList] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState('hotdogs')
-  const [operationStatus, setOperationStatus] = useState('')
+  // const [operationStatus, setOperationStatus] = useState('')
   const [isOpen, setIsOpen] = useState()
   const [openModal, setOpenModal] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [msgClosed, setMessageClosed] = useState(false)
   const [isLoading, setIsLoading] = useState(true);
 
-  async function fetchState() {
-    try {
-      const res = await fetch('/api/operacao/getestado', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-      })
-      const data = await res.json();
-      const estado = data[0]?.estado;
-      setOperationStatus(estado)
-      //console.log(estado)
-    } catch (error) {
-      console.error(error);
-    } finally {
-    setIsLoading(false);
-  }
-  }
+  // async function fetchState() {
+  //   try {
+  //     const res = await fetch('/api/operacao/getestado', {
+  //       method: 'GET',
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       },
+  //     })
+  //     const data = await res.json();
+  //     const estado = data[0]?.estado;
+  //     setOperationStatus(estado)
+  //     //console.log(estado)
+  //   } catch (error) {
+  //     console.error(error);
+  //   } finally {
+  //   setIsLoading(false);
+  // }
+  // }
 
-  async function fetchProducts() {
-    try {
-      const res = await fetch('/api/produtos/getproduct', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        //body: JSON.stringify(response)
-      })
-      const data = await res.json();
-      //console.log(data)
-      setProducts(data);
-      setUpdateList(false);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  }
-  useEffect(() => {
-    fetchProducts();
-    fetchState();
-  }, [updateList]);
+  // async function fetchProducts() {
+  //   try {
+  //     const res = await fetch('/api/produtos/getproduct', {
+  //       method: 'GET',
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       },
+  //       //body: JSON.stringify(response)
+  //     })
+  //     const data = await res.json();
+  //     //console.log(data)
+  //     setProducts(data);
+  //     setUpdateList(false);
+  //   } catch (error) {
+  //     console.error(error);
+  //   } finally {
+  //     //setIsLoading(false);
+  //   }
+  // }
+  // useEffect(() => {
+  //   // fetchProducts();
+  //   // fetchState();
+  // }, [updateList]);
 
-  if (isLoading) {
-    // Mostrar um componente de loading ou mensagem de carregamento
-    return (
-      <LoadingPage />
-    )
-  }
+  // if (isLoading) {
+  //   // Mostrar um componente de loading ou mensagem de carregamento
+  //   return (
+  //     <LoadingPage />
+  //   )
+  // }
 
 
   // Agrupar produtos por categoria
@@ -119,12 +117,39 @@ export default function Home() {
 }
 
 export async function getStaticProps() {
-  // Simplesmente retorna um objeto vazio, pois não precisa buscar dados para a página de loading
-  return {
-    props: {
-      isLoading: true,
-    },
-  };
+  try {
+    const resState = await fetch('/api/operacao/getestado', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    });
+    const dataState = await resState.json();
+    const estado = dataState[0]?.estado;
+
+    const resProducts = await fetch('/api/produtos/getproduct', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    });
+    const dataProducts = await resProducts.json();
+
+    return {
+      props: {
+        products: dataProducts,
+        operationStatus: estado,
+      },
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      props: {
+        products: [],
+        operationStatus: '',
+      },
+    };
+  }
 }
 
 

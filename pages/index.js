@@ -2,68 +2,59 @@ import { IconShoppingCart, IconCurrencyReal } from "@tabler/icons-react";
 import { useState, useEffect } from "react"
 import Modal from "../src/components/Modal"
 import Header from "../src/components/Header";
-import LoadingPage from '../src/components/LoadingPage'
+
 
 export default function Home({ products }) {
   //const [products, setProducts] = useState([])
   const [updateList, setUpdateList] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState('hotdogs')
-  // const [operationStatus, setOperationStatus] = useState('')
+  const [operationStatus, setOperationStatus] = useState('')
   const [isOpen, setIsOpen] = useState()
   const [openModal, setOpenModal] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [msgClosed, setMessageClosed] = useState(false)
-  const [isLoading, setIsLoading] = useState(true);
 
-  // async function fetchState() {
-  //   try {
-  //     const res = await fetch('/api/operacao/getestado', {
-  //       method: 'GET',
-  //       headers: {
-  //         'Content-Type': 'application/json'
-  //       },
-  //     })
-  //     const data = await res.json();
-  //     const estado = data[0]?.estado;
-  //     setOperationStatus(estado)
-  //     //console.log(estado)
-  //   } catch (error) {
-  //     console.error(error);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // }
 
-  // async function fetchProducts() {
-  //   try {
-  //     const res = await fetch('/api/produtos/getproduct', {
-  //       method: 'GET',
-  //       headers: {
-  //         'Content-Type': 'application/json'
-  //       },
-  //       //body: JSON.stringify(response)
-  //     })
-  //     const data = await res.json();
-  //     //console.log(data)
-  //     setProducts(data);
-  //     setUpdateList(false);
-  //   } catch (error) {
-  //     console.error(error);
-  //   } finally {
-  //     //setIsLoading(false);
-  //   }
-  // }
-  // useEffect(() => {
-  //   //fetchProducts();
-  //   //fetchState();
-  // }, [updateList]);
+  async function fetchState() {
+    try {
+      const res = await fetch('/api/operacao/getestado', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      })
+      const data = await res.json();
+      const estado = data[0]?.estado;
+      setOperationStatus(estado)
+      //console.log(estado)
+    } catch (error) {
+      console.error(error);
+    } 
+  }
 
-  // if (isLoading) {
-  //   // Mostrar um componente de loading ou mensagem de carregamento
-  //   return (
-  //     <LoadingPage />
-  //   )
-  // }
+  async function fetchProducts() {
+    try {
+      const res = await fetch('/api/produtos/getproduct', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        //body: JSON.stringify(response)
+      })
+      const data = await res.json();
+      //console.log(data)
+      setProducts(data);
+      setUpdateList(false);
+    } catch (error) {
+      console.error(error);
+    } 
+  }
+  useEffect(() => {
+    //fetchProducts();
+    fetchState();
+  }, [updateList]);
+
+
 
 
   // Agrupar produtos por categoria
@@ -123,20 +114,13 @@ export async function getStaticProps() {
       'Content-Type': 'application/json'
     },
   })
-  const resS = await fetch('https://www.obadog.com.br/api/operacao/getestado', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-  })
 
-  const operationStatus = await resS.json()
   const products = await resP.json()
   return {
     props: {
       products,
-      operationStatus,
     },
+    revalidate: 3600
   }
 }
 

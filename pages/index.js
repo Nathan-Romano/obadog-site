@@ -50,6 +50,8 @@ export default function Home({ products }) {
     } 
   }
   useEffect(() => {
+
+   // console.log(products)
     //fetchProducts();
     fetchState();
   }, [updateList]);
@@ -78,6 +80,7 @@ export default function Home({ products }) {
       </div>
       <div className="max-w-3xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mx-auto py-4 font-varela">
         {filteredProducts && filteredProducts.map((product, index) => {
+          //console.log(product)
           return (
             <div className="flex flex-col bg-amber-50 mx-auto shadow-xl rounded-3xl w-full justify-between hover:border-red-500 border-transparent border-b-2" key={index}>
               <img src={product.foto} alt={product.nome} className="h-60 w-full object-cover rounded-t-3xl rounded-b-none mb-2" />

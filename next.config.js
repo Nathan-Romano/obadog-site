@@ -4,3 +4,14 @@ const nextConfig = {
 }
 
 module.exports = nextConfig
+
+
+module.exports = {
+  // Resto da configuração...
+
+  exportPathMap: async function () {
+    return {
+      '/loading': { page: '/loading' }
+    }
+  }
+}

@@ -2,6 +2,8 @@ import { IconShoppingCart, IconCurrencyReal } from "@tabler/icons-react";
 import { useState, useEffect } from "react"
 import Modal from "../src/components/Modal"
 import Header from "../src/components/Header";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function Home({ products }) {
@@ -43,7 +45,7 @@ export default function Home({ products }) {
       })
       const data = await res.json();
       //console.log(data)
-      setProducts(data);
+      //setProducts(data);
       setUpdateList(false);
     } catch (error) {
       console.error(error);
@@ -57,7 +59,18 @@ export default function Home({ products }) {
   }, [updateList]);
 
 
-
+const handleAddtoCart = (product) => {
+  if (operationStatus === "FECHADO") {
+    setMessageClosed(true);
+    toast.error('Não é possível fazer pedido com a loja fechada.')
+  } else {
+    setSelectedProduct(product);
+    setOpenModal(true);
+  }
+};
+const handleCloseMessage = () => {
+  setMessageClosed(false);
+};
 
   // Agrupar produtos por categoria
   const groupedProducts = products && products?.reduce((acc, product) => {
@@ -76,11 +89,10 @@ export default function Home({ products }) {
     <section className="bg-amber-50 font-['system-ui'] min-h-screen">
       <div className="pt-2 m-auto max-w-3xl bg-amber-50 w-full rounded-xl shadow-xl">
         <Header selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
-        {msgClosed ? (<p className="text-gray-900 text-center">Não é possivel fazer pedido com a loja fechada. Por favor, verifique nosso horario de atendimento.</p>) : ('')}
       </div>
       <div className="max-w-3xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mx-auto py-4 font-varela">
         {filteredProducts && filteredProducts.map((product, index) => {
-          //console.log(product)
+          //console.log(product)Não é possivel fazer pedido com a loja fechada. Por favor, verifique nosso horario de atendimento.
           return (
             <div className="flex flex-col bg-amber-50 mx-auto shadow-xl rounded-3xl w-full justify-between hover:border-red-500 border-transparent border-b-2" key={index}>
               <img src={product.foto} alt={product.nome} className="h-60 w-full object-cover rounded-t-3xl rounded-b-none mb-2" />
@@ -92,10 +104,8 @@ export default function Home({ products }) {
                   onClick={() => {
                     fetchState()
                     //console.log(operationStatus)
-                    operationStatus === 'FECHADO' ?
-                      setMessageClosed(!msgClosed) :
-                      setSelectedProduct(product)
-                    setOpenModal(true)
+                    handleAddtoCart(product)
+                    //setOpenModal(true)
                   }}>
                   <IconShoppingCart className=" text-amber-50 p-1" />
                 </button>
@@ -106,6 +116,7 @@ export default function Home({ products }) {
           )
         })}
       </div>
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
     </section>
   )
 }

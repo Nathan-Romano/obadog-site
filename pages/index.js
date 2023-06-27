@@ -111,6 +111,9 @@ export default function Home({ products }) {
 }
 
 export async function getStaticProps() {
+
+  // await new Promise((resolve) => setTimeout(resolve, 1000)); 
+
   const resP = await fetch('https://www.obadog.com.br/api/produtos/getproduct', {
     method: 'GET',
     headers: {

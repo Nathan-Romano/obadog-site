@@ -7,7 +7,7 @@ import Visa from "../components/Visa"
 import MasterCard from "../components/MasterCard"
 import Elo from "../components/Elo"
 import Hipercard from "../components/Hipercard"
-import LoadingPage from "./LoadingPage";
+import Loading from "../../pages/loading";
 
 export default function Header({ selectedCategory, setSelectedCategory }) {
     const [modalOpen, setModalOpen] = useState(false);
@@ -54,7 +54,8 @@ export default function Header({ selectedCategory, setSelectedCategory }) {
             setHandleRetirada(retirada)
         } catch (error) {
             console.error(error);
-        } finally {
+        } 
+        finally {
             await new Promise((resolve) => setTimeout(resolve, 1000)); 
             setIsLoading(false);
         }
@@ -63,7 +64,7 @@ export default function Header({ selectedCategory, setSelectedCategory }) {
     if (isLoading) {
         // Mostrar um componente de loading ou mensagem de carregamento
         return (
-            <LoadingPage />
+            <Loading />
         )
     }
 

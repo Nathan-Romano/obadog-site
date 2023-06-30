@@ -96,7 +96,7 @@ const handleCloseMessage = () => {
           return (
             <div className="flex flex-col bg-amber-50 mx-auto shadow-xl rounded-3xl w-full justify-between hover:border-red-500 border-transparent border-b-2" key={index}>
               <img src={product.foto} alt={product.nome} className="h-60 w-full object-cover rounded-t-3xl rounded-b-none mb-2" />
-              <h1 className="text-xl font-medium text-gray-900 px-4">{product.nome}</h1>
+              <h2 className="text-xl font-medium text-gray-900 px-4">{product.nome}</h2>
               <p className="text-gray-500 px-4 pt-2 line-clamp-1 mb-2 font-varela">{product.descricao}</p>
               <div className="flex justify-between items-center mt-auto pb-4">
                 <p className="flex text-red-500 text-xl px-4" ><IconCurrencyReal className="text-red-500 pt-1" />{product.preco}</p>

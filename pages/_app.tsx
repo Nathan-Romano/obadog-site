@@ -8,7 +8,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <CartProvider>
       <Head>
-      <title>Obadog</title>
+      <title>Obadog - Prensados Gourmet</title>
       </Head>
       <Component {...pageProps} />
       <CartButton />

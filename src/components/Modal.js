@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { IconCurrencyReal, IconX, IconMinus, IconPlus } from "@tabler/icons-react";
 import { CartContext } from "./CartContext";
 import { v4 as uuidv4 } from 'uuid';
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Modal({ isOpen, setModalOpen, selectedProductModal }) {
   const [quantity, setQuantity] = useState(1);
@@ -74,6 +75,7 @@ export default function Modal({ isOpen, setModalOpen, selectedProductModal }) {
     setQuantity(1);
     setAdditionalIngredients([]);
     setObservacao("");
+    toast.success('Item adicionado ao carrinho com sucesso.')
   };
 
   const incrementQuantity = () => {
@@ -161,6 +163,7 @@ export default function Modal({ isOpen, setModalOpen, selectedProductModal }) {
             onClick={handleAddToCart} >Adicionar ao carrinho</button>
           </div>
         </div>
+        <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
       </div >
     );
   } else {

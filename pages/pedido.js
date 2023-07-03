@@ -6,7 +6,6 @@ import { useRouter } from 'next/router';
 var CryptoJS = require("crypto-js");
 import { v4 as uuidv4 } from 'uuid';
 const moment = require('moment');
-import wppconnect from 'wppconnect';
 
 require('dotenv').config();
 
@@ -156,8 +155,6 @@ export default function PedidoPage() {
         localStorage.removeItem('cartItems');
         localStorage.removeItem('dadosEntrega');
         router.push('/pedidofinalizado')
-
-    
     }
 
 

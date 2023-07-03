@@ -6,9 +6,9 @@ import { useRouter } from 'next/router';
 var CryptoJS = require("crypto-js");
 import { v4 as uuidv4 } from 'uuid';
 const moment = require('moment');
+import wppconnect from 'wppconnect';
 
 require('dotenv').config();
-
 
 export default function PedidoPage() {
     const { cartItems, setCartItems, isDelivery, clearCart } = useContext(CartContext);
@@ -156,6 +156,8 @@ export default function PedidoPage() {
         localStorage.removeItem('cartItems');
         localStorage.removeItem('dadosEntrega');
         router.push('/pedidofinalizado')
+
+    
     }
 
 
@@ -243,6 +245,8 @@ export default function PedidoPage() {
         } catch (error) {
             console.error('Ocorreu um erro ao cadastrar o pedido:', error);
         }
+
+
 
         // console.log("Resumo do Pedido:");
         // console.log("Itens do Carrinho:");

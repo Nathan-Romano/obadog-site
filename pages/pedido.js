@@ -46,6 +46,10 @@ export default function PedidoPage() {
         }
     }
 
+
+      
+
+
     function generateIdentifier() {
         // Gera um UUID v4
         const uuid = uuidv4();

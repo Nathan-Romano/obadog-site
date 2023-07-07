@@ -124,8 +124,9 @@ const handleCloseMessage = () => {
 export async function getStaticProps() {
 
   // await new Promise((resolve) => setTimeout(resolve, 1000)); 
-
-  const resP = await fetch('https://www.obadog.com.br/api/produtos/getproduct', {
+//http://localhost:3000/api/produtos/getproduct
+//https://obadog.com.br/api/produtos/getproduct
+  const resP = await fetch('https://obadog.com.br/api/produtos/getproduct', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'

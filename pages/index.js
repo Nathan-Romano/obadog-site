@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function Home({ products }) {
-  //const [products, setProducts] = useState([])
+  const [products, setProducts] = useState([])
   const [updateList, setUpdateList] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState('hotdogs')
   const [operationStatus, setOperationStatus] = useState('')
@@ -45,7 +45,7 @@ export default function Home({ products }) {
       })
       const data = await res.json();
       //console.log(data)
-      //setProducts(data);
+      setProducts(data);
       setUpdateList(false);
     } catch (error) {
       console.error(error);
@@ -54,7 +54,7 @@ export default function Home({ products }) {
   useEffect(() => {
 
    // console.log(products)
-    //fetchProducts();
+    fetchProducts();
     fetchState();
   }, [updateList]);
 
@@ -121,26 +121,26 @@ const handleCloseMessage = () => {
   )
 }
 
-export async function getStaticProps() {
+// export async function getStaticProps() {
 
-  // await new Promise((resolve) => setTimeout(resolve, 1000)); 
-//http://localhost:3000/api/produtos/getproduct
-//https://obadog.com.br/api/produtos/getproduct
-  const resP = await fetch('https://www.obadog.com.br/api/produtos/getproduct', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-  })
+//   // await new Promise((resolve) => setTimeout(resolve, 1000)); 
+// //http://localhost:3000/api/produtos/getproduct
+// //https://obadog.com.br/api/produtos/getproduct
+//   const resP = await fetch('https://www.obadog.com.br/api/produtos/getproduct', {
+//     method: 'GET',
+//     headers: {
+//       'Content-Type': 'application/json'
+//     },
+//   })
 
-  const products = await resP.json()
-  return {
-    props: {
-      products,
-    },
-    revalidate: 3600
-  }
-}
+//   const products = await resP.json()
+//   return {
+//     props: {
+//       products,
+//     },
+//     revalidate: 3600
+//   }
+// }
 
 
 

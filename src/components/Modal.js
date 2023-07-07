@@ -50,29 +50,7 @@ export default function Modal({ isOpen, setModalOpen, selectedProductModal }) {
     return basePrice + additionalIngredientsPrices * quantity;
   };
 
-  const enviarMensagem = async () => {
-    try {
-      const response = await fetch('/api/enviar-mensagem', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          numero: '554198803189@c.us', // Número de telefone para o qual deseja enviar a mensagem
-          mensagem: 'teste de dentro do site', // Mensagem de texto que deseja enviar
-        }),
-      });
   
-      if (!response.ok) {
-        throw new Error('Erro ao enviar a mensagem');
-      }
-  
-      const data = await response.json();
-      console.log(data); // Exibe a resposta da API, se houver
-    } catch (error) {
-      console.error('Erro ao enviar mensagem:', error);
-    }
-  };
 
   const handleAddToCart = () => {
     // Crie o objeto do item com as informações necessárias
@@ -100,7 +78,7 @@ export default function Modal({ isOpen, setModalOpen, selectedProductModal }) {
     setAdditionalIngredients([]);
     setObservacao("");
     toast.success('Item adicionado ao carrinho com sucesso.')
-    enviarMensagem();
+    
   };
 
   const incrementQuantity = () => {

@@ -9,6 +9,8 @@ const moment = require('moment');
 
 require('dotenv').config();
 
+let message = "RESUMO DO PEDIDO\n";
+
 export default function PedidoPage() {
     const { cartItems, setCartItems, isDelivery, clearCart } = useContext(CartContext);
     const [endereco, setEndereco] = useState('');
@@ -46,7 +48,37 @@ export default function PedidoPage() {
         }
     }
 
-
+    const sendPostRequest = async () => {
+        const url = 'https://cluster.apigratis.com/api/v1/whatsapp/sendText';
+        const data = {
+          number: '5541998803189',
+          text: message
+        };
+        const headers = {
+          'Content-Type': 'application/json',
+          'SecretKey': 'e3b0e4b8-7670-47b6-8543-47f869ccc90e',
+          'PublicToken': '412d3280-c93a-11ed-afa1-0242ac120002',
+          'DeviceToken': 'd2e884df-df29-424a-9802-15579b53429b',
+          'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3BsYXRhZm9ybWEuYXBpYnJhc2lsLmNvbS5ici9zb2NpYWwvZ29vZ2xlL2NhbGxiYWNrIiwiaWF0IjoxNjg4NzU0NjA2LCJleHAiOjE3MjAyOTA2MDYsIm5iZiI6MTY4ODc1NDYwNiwianRpIjoibDc4RGE4Q1gwMWdkVk9mZiIsInN1YiI6IjM5MjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.oEdNjAAu4AkAxZ30YpJ_RngwZODFB9UtjmHrCvQ1Cho'
+        };
+      
+        try {
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(data)
+          });
+      
+          if (response.ok) {
+            const responseData = await response.json();
+            console.log(responseData);
+          } else {
+            console.error('Erro ao enviar solicitação:', response.status);
+          }
+        } catch (error) {
+          console.error('Erro ao enviar solicitação:', error);
+        }
+      };
       
 
 
@@ -159,6 +191,7 @@ export default function PedidoPage() {
         localStorage.removeItem('cartItems');
         localStorage.removeItem('dadosEntrega');
         router.push('/pedidofinalizado')
+        sendPostRequest()
     }
 
 
@@ -166,7 +199,7 @@ export default function PedidoPage() {
         //const timestamp = new Date().toISOString();
         const timestamp = moment().format('DD/MM/YYYY - HH:mm:ss');
         const pedidoId = generateIdentifier();
-        let message = "RESUMO DO PEDIDO\n";
+        
         //console.log(timestamp);
         message += "Status do pedido: " + (status === 0 ? "Preparando" : "") + "\n";
         message += "Horario do pedido: " + timestamp + "\n\n";

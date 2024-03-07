@@ -11,7 +11,7 @@
   "dependencies": {
     "@react-google-maps/api": "^2.18.1",
     "@tabler/icons-react": "^2.19.0",
-    "@types/node": "20.1.4",
+    "@types/node": "20.2.5",
     "@types/react": "18.2.6",
     "@types/react-dom": "18.2.4",
     "@wppconnect-team/wppconnect": "^1.27.3",
